@@ -34,7 +34,7 @@ func Router() *gin.Engine {
 	r.POST("/user/updateUser", service.UpdateUser)
 	r.POST("/user/find", service.FindByID)
 
-	// 添加好友
+	// 好友模块
 	r.POST("/searchFriends", service.SearchFriends)
 	r.POST("/contact/addfriend", service.AddFriend)
 
@@ -50,8 +50,7 @@ func Router() *gin.Engine {
 	r.POST("/contact/loadcommunity", service.LoadCommunity)
 	r.POST("/contact/joinGroup", service.JoinGroups)
 
-	//心跳续命 不合适  因为Node  所以前端发过来的消息再receProc里面处理
-	// r.POST("/user/heartbeat", service.Heartbeat)
+	// 消息缓存
 	r.POST("/user/redisMsg", service.RedisMsg)
 	return r
 }
