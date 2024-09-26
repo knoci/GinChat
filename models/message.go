@@ -83,18 +83,16 @@ func Chat(w http.ResponseWriter, r *http.Request) {
 		GroupSets:     set.New(set.ThreadSafe), // 设置线程安全
 	}
 
-	// 4.用户关系
-
-	// 5.userid与node绑定并且加锁
+	// 4.用户关系，userid与node绑定并且加锁
 	rwLock.Lock()
 	clientMap[userId] = node
 	rwLock.Unlock()
 
-	// 6.完成发送逻辑
+	// 5.完成发送逻辑
 	go sendProc(node)
-	// 7.完成接受逻辑,接收后广播到udp，根据类型(私聊，群聊)分别处理
+	// 6.完成接受逻辑,接收后广播到udp，根据类型(私聊，群聊)分别处理
 	go recvProc(node)
-	//8.加入在线用户到缓存
+	//7.加入在线用户到缓存
 	SetUserOnlineInfo("online_"+Id, []byte(node.Addr), time.Duration(viper.GetInt("timeout.RedisOnlineTime"))*time.Hour)
 	sendMsg(uint(userId), []byte("欢迎进入聊天系统"))
 }
